@@ -5,7 +5,7 @@
       "inputType": "individual",
       "valueType": "value",
       "description": "the file is a CSV that follow darwin archive standard and heading following TWDG ",
-      "name": "prefix for output",
+      "name": "ENA2TimeTree.csv",
       "obligation": true,
       "target": "ENA2TimeTree.csv"
  },
@@ -14,7 +14,7 @@
       "inputType": "individual",
       "valueType": "value",
       "description": "Group observations with a shape collection, at the moment the shape need to have the attribute columns WWF_MHTNAM",
-      "name": "Group by Shape",
+      "name": "SpeciesGRoot.tree",
       "valueSchema": "url",
       "obligation": true,
       "target": "SpeciesGRoot.tree "
