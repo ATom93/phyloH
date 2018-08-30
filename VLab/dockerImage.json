@@ -1,0 +1,17 @@
+{
+
+  "image": "atom93/docker-phyloH",
+  "resources": {
+    "memory_mb": "5000",
+    "cpu_units": ""
+ },
+  "container": {
+    "entryPoint": [
+      "/bin/bash",
+      "-c"
+ ],
+    "command": [
+      "ls -al & tar xzf ./AncillaryFiles/locations.tgz && chown -R root:root /grass/geodb7/cea/PERMANENT && chown -R root:root /grass/geodb7/ll/PERMANENT && ls -al && python esecutorePhyloHPandas.py -f SpeciesGRoot.tree -o ciccio2 -s ENA2TimeTree.csv -r 2 -G 1 -H 1000000"
+ ]
+  }
+}

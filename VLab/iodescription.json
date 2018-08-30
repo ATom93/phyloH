@@ -1,0 +1,38 @@
+{
+  "inputs": [
+  {
+      "id": "SAMPLE_FILENAME",
+      "inputType": "individual",
+      "valueType": "value",
+      "description": "the file is a CSV that follow darwin archive standard and heading following TWDG ",
+      "name": "prefix for output",
+      "obligation": true,
+      "target": "ENA2TimeTree.csv"
+ },
+ {
+      "id": "MPOLYGON",
+      "inputType": "individual",
+      "valueType": "value",
+      "description": "Group observations with a shape collection, at the moment the shape need to have the attribute columns WWF_MHTNAM",
+      "name": "Group by Shape",
+      "valueSchema": "url",
+      "obligation": true,
+      "target": "SpeciesGRoot.tree "
+ }
+  ],
+  "outputs": [
+    {
+      "id": "ciccio2_alphas.csv",
+      "outputType": "individual",
+      "valueType": "value",
+      "description": "All output compressed in one file to be downloaded",
+      "name": "ciccio2_alphas.csv",
+      "valueSchema": "url",
+      "target": "ciccio2alphas.csv"
+ },
+}
+
+
+
+
+
