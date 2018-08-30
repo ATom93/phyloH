@@ -1,4 +1,4 @@
-from pandas import DataFrame, Series,to_datetime
+from pandas import DataFrame, Series,to_datetime, read_csv
 import shapefile
 from geojson import Feature, Point, FeatureCollection, GeometryCollection
 import geojson
@@ -298,13 +298,11 @@ def Elevation(DictZ):
 def CalcElevation(DictZ):
   return DictZ["ElevationInMeters"]-DictZ["DepthInMeters"]+DictZ["DistanceAboveSurfaceInMeters"]
 
-def GridMaker(samplefilename, sizeg, pathPythonScript,docker):
+def GridMaker(samplefilename, sizeg, pathPythonScript):
     from GrassLand import *
-    print "samplefilename:\t"+samplefilename
     dfOr=DataFrame.from_csv(samplefilename,sep=",")
     #dfOr.to_csv("pipe_"+samplefilename,sep="|")
-    gisbase,gisdb, mapset=SetUp(docker=docker,pathPythonScript=pathPythonScript)
-    print "gisbase, gisdb:\t"+str(gisbase)+", "+str(gisdb)
+    gisbase,gisdb, mapset=SetUp(pathPythonScript=pathPythonScript)
     LoadData(gisbase,gisdb, mapset, samplefile=samplefilename)
     hexagrid(gisbase,gisdb, mapset, radius=sizeg)
     #result.csv need to changed to match input defined in com[-s]
@@ -316,7 +314,7 @@ def GridMaker(samplefilename, sizeg, pathPythonScript,docker):
 
 def ShapeLoader(shapeName,samplefilename ,pathPythonScript, group="WWF_MHTNAM"):
     from GrassLand import *
-    dfOr=from_csv(samplefilename,sep=",")
+    dfOr=read_csv(samplefilename,sep=",")
     gisbase,gisdb, mapset=SetUp(pathPythonScript=pathPythonScript)
     LoadData(gisbase,gisdb, mapset, samplefile=samplefilename)
     addVec(gisbase, gisdb,mapset,pathPythonScript=pathPythonScript,dirName=os.path.dirname(shapeName), fileName=os.path.basename(shapeName))

@@ -7,7 +7,7 @@ from pandas import read_csv
 
 Locations="AncillaryFiles/locations.tgz"
 addon="AncillaryFiles"
-def SetUp(pathPythonScript,docker):
+def SetUp(pathPythonScript):
     """
     Change Enviromental Variables to work with GRASS and setup working DB
     """
@@ -15,21 +15,10 @@ def SetUp(pathPythonScript,docker):
     wdIN=os.path.dirname(os.path.abspath(pathPythonScript))
     wdout=os.getcwd()
     if "grass" not in os.listdir(wdout):
-        A=tarfile.open(os.path.join(wdIN,Locations))
-        A.extractall()
-        #if the execution environment is a docker container
-        #the owner of the geodb directory, all subfolders and their files must be root (the one who execute the script)
-        #with all permissions (777) in order to access the PERMANENT mapset
-        if docker=="1":
-            for root, dirs, files in os.walk(os.path.join(wdout,"grass")):
-                for d in dirs:
-                    os.chown(os.path.join(root, d),0,0)
-                    os.chmod(os.path.join(root, d), 0777)
-                for f in files:
-                    os.chown(os.path.join(root, f),0,0)
-                    os.chmod(os.path.join(root, f), 0777)
-
-        
+        #shutil.rmtree(os.path.join(wdout,"grass"))
+    	A=tarfile.open(os.path.join(wdIN,Locations))
+    	A.extractall()
+    
     
     grass7bin = 'grass74'
     #gisdb = os.path.join(os.path.expanduser("~"), "grass", "geodb7")
@@ -77,11 +66,6 @@ def LoadData(gisbase,gisdb, mapset, location="ll", samplefile="sample.csv", sep=
     import grass.script.setup as gsetup
     ###########
     # launch session
-    print "GISBASE="+gisbase
-    print "GISDB="+gisdb
-    print "LOCATION="+location
-    print "MAPSET="+mapset
-    print "SAMPLEFILE="+samplefile
     gsetup.init(gisbase,gisdb, location, mapset)
     gscript.run_command('v.in.ascii',input=samplefile,output='sample',x=Long,y=Lat,skip=1,overwrite=True,quiet=True, separator=sep)
 

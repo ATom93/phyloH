@@ -82,7 +82,7 @@ def QRtree(db, H):
     H["MI"].loc["I(T,S|E)"]["nats","TurnOver"]= temp["I(Ti,S|E)"]["nats","TurnOver"].sum()
 
 if __name__=="__main__":
-    com={"-x":"nexml","None":1, "--QR":"0","--QRC":"0","-k":0, "-e":0,"-q":1,"-G":0,"-H":"0","-g":"locationID","-M":"0","--docker":"0"}
+    com={"-x":"nexml","None":1, "--QR":"0","--QRC":"0","-k":0, "-e":0,"-q":1,"-G":0,"-H":"0","-g":"locationID","-M":"0"}
     count=1
     key=None
     for i in sys.argv:
@@ -110,14 +110,12 @@ if __name__=="__main__":
      -G    0 or 1       Geographic analysis mode: group and sample and potentially taxonomy  and tree are all embedded in a CSV that includes also geographical location of observations.
      -H    INT          If data are Geographic, group observation by hexagonal grid of a given span in meters, if zero no gridding is applied and locationID parameters is expected
      -M    string       Cross obseration with a shapecollection  -G need to be 1 and -H need to be 0
-     --docker 0 or 1    Specify if the script is executed in a docker environment (1) or not (0)
     """
     if (( (com["--QR"]=="0") and (not '-s' in com) ) | ((not '-f' in com ) and  (com["-G"]=="0"))):
         print spiegazione
         raise ImportError
     com["call"]=" ".join(sys.argv)
     print "sono qui"
-    print str(com["-s"])
     if com["-G"]=="1":
         from lib_script.geoAddOn import *
         if int(com["-H"])==0:
@@ -142,8 +140,7 @@ if __name__=="__main__":
                 IN=com["-s"]
                 print "option CSV"
         else:
-            print com["call"].split(" ")[0]
-            GridMaker(com["-s"],com["-H"], com["call"].split(" ")[0],com["--docker"])
+            GridMaker(com["-s"],com["-H"], com["call"].split(" ")[0])
             IN=os.path.dirname(os.path.abspath(com["-s"]))+os.path.sep+"grid_"+os.path.basename(com["-s"])
             sample,groupBy=makePhyloHInput(csv=IN,sep=",", groupBy="cellid",  shape=False, makePhylo=("-f" not in com),  makeTaxo=("-t" not in com))
             com["-g"]="Group_cellid"
