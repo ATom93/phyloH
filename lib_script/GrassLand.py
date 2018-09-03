@@ -14,13 +14,31 @@ def SetUp(pathPythonScript):
     #Set up locations
     wdIN=os.path.dirname(os.path.abspath(pathPythonScript))
     wdout=os.getcwd()
-    if "grass" not in os.listdir(wdout):
+    #if "grass" not in os.listdir(wdout):
         #shutil.rmtree(os.path.join(wdout,"grass"))
-    	A=tarfile.open(os.path.join(wdIN,Locations))
-    	A.extractall()
+    	#A=tarfile.open(os.path.join(wdIN,Locations))
+    	#A.extractall()
     
+    os.makedirs(os.path.join(wdout,"grass/geodb7"))
     
     grass7bin = 'grass74'
+    startcmd = [grass7bin, "-c", "EPSG:4326", "-e", "grass/geodb7/ll"]
+    
+    p = subprocess.Popen(startcmd, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = p.communicate()
+    if p.returncode != 0:
+        print >>sys.stderr, "ERROR: Cannot find GRASS GIS 7 start script (%s)" % startcmd
+        print err
+        sys.exit(-1)
+        
+    startcmd = [grass7bin, "-c", "EPSG:6933", "-e", "grass/geodb7/cea"]
+    
+    p = subprocess.Popen(startcmd, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = p.communicate()
+    if p.returncode != 0:
+        print >>sys.stderr, "ERROR: Cannot find GRASS GIS 7 start script (%s)" % startcmd
+        sys.exit(-1)
+   
     #gisdb = os.path.join(os.path.expanduser("~"), "grass", "geodb7")
     gisdb=os.path.join(os.path.realpath(wdout), "grass", "geodb7")
     mapset   = "PERMANENT"
